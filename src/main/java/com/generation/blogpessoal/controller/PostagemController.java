@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
-import com.generation.blogpessoal.respository.PostagemRepository;
+import com.generation.blogpessoal.repository.PostagemRepository;
 
 import jakarta.validation.Valid;
 
@@ -43,9 +43,6 @@ public class PostagemController {
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-		
-	
-
 
 	@GetMapping("/titulo/{titulo}")
 	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){
