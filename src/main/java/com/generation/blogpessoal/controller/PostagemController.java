@@ -20,61 +20,77 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
+import com.generation.blogpessoal.repository.TemaRepository;
 
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/postagens")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-public class PostagemController {
-	
+@RestController		// Define que essa classe será uma Controladora
+@RequestMapping("/postagens")	// Define quais urls essa classe irá gerenciar as requisições
+@CrossOrigin(origins = "*", allowedHeaders = "*")	// Habilita requisições feitas de qualquer fonte externa 
+public class PostagemController{
+
 	@Autowired
 	private PostagemRepository postagemRepository;
+	/* Através da Injeção de Dep., o Spring cria uma instancia da interface 
+	 * PostagemRepository, onde podemos utilizar os seus métodos sem a
+	 * necessidade de criar um objeto.
+	 * */
 	
-	@GetMapping
-	public ResponseEntity<List<Postagem>> getAll(){
+	@Autowired
+	private TemaRepository temaRepository;
+	
+	@GetMapping // Execute esse método caso o Verbo Http seja o GET
+	public ResponseEntity<List<Postagem>> getAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
-		
 	}
 	
+	/* Execute esse método caso a requisição venha pelo endpoint
+	 * /postagens/{id}, sendo id uma variavel de caminho e o Verbo Http seja o GET */
 	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> getById(@PathVariable Long id){
-		return postagemRepository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	public ResponseEntity<Postagem> getById(@PathVariable Long id){	// @PathVariable indica que a variavel ID vem pela url/endpoint
+		return postagemRepository.findById(id)	// Faz uma busca por ID para pegar a Postagem
+				.map(resp -> ResponseEntity.ok(resp))	// Se a busca retornou diferente de NULL, retorne a postagem 
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());	// Senão, retorna ao usuário o erro Não Encontrado
 	}
-
+	
+	/* Execute esse método caso a requisição venha pelo endpoint
+	 * /postagens/titulo/{titulo}, sendo titulo uma variavel de caminho e o Verbo Http seja o GET */
 	@GetMapping("/titulo/{titulo}")
-	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){
-		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
-	
-	
-}
-	
-	@PostMapping
-	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(postagemRepository.save(postagem));
-		
+	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){	// @PathVariable indica que a variavel titulo vem pela url/endpoint
+		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));	// Executa o método de busca especifica passando como argumento a variavel
 	}
-
-	@PutMapping
+	
+	@PostMapping // Execute esse método caso o Verbo Http seja o POST
+	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem) { // Valida os campos e indica que o objeto postagem vem pelo corpo da requisição 
+		return ResponseEntity.status(HttpStatus.CREATED)	// Retorna ao usuário o status e o objeto salvo
+				.body(postagemRepository.save(postagem));	// Salva o objeto no banco
+	}
+	
+	@PutMapping // Execute esse método caso o Verbo Http seja o PUT
 	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem) {
-		return postagemRepository.findById(postagem.getId())
-				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-						.body(postagemRepository.save(postagem)))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		return postagemRepository.findById(postagem.getId())	// Do objeto que veio na requisição, retire o ID e verifica se existe
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK)	// Retorna ao usuário o status e o objeto atualizado 
+						.body(postagemRepository.save(postagem)))		// Atualiza o objeto no banco
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());	// // Retorna ao usuário o status Não Encontrado
+	}
+	
+	@ResponseStatus(HttpStatus.NO_CONTENT)	// Indica o status a ser retornado caso o método seja executado com sucesso
+	@DeleteMapping("/{id}")					// Execute esse método caso a requisição venha pelo endpoint /postagens/{id}, e o Verbo Http seja o DELETE
+	public void delete(@PathVariable Long id) {	// @PathVariable indica que a variavel ID vem pela url/endpoint
+		Optional<Postagem> postagem = postagemRepository.findById(id);	// Do ID que veio na url, faça uma busca para encontrar a postagem
 		
-	}
-
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		Optional<Postagem> postagem = postagemRepository.findById(id);
-
-		if(postagem.isEmpty())
+		if(postagem.isEmpty())	// Se o objeto retornou NULL, lança a exceção e retorna ao usuário
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-		postagemRepository.deleteById(id);
+		
+		postagemRepository.deleteById(id); // Senão, apaga do banco de dados
 	}
+
+	public TemaRepository getTemaRepository() {
+		return temaRepository;
+	}
+
+	public void setTemaRepository(TemaRepository temaRepository) {
+		this.temaRepository = temaRepository;
+	}
+	
 }

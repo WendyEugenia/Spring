@@ -16,65 +16,73 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-	@Entity
-	@Table(name = "tb_postagens")
-	public class Postagem {
+@Entity// Define que será uma tabela
+@Table(name = "tb_postagens")// Nomeia a Tabela
+public class Postagem {
     
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Id// Primary Key
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto Increment
 	private Long id;
+    
+    /*
+	 * Not Null = proibe ausencia de qualquer coisa
+	 * Not Blanck = proibe ausencia de qualquer coisa e tb campos com espaço
+	 * */
 
-	@NotBlank(message = "O atributo título é Obrigatório!")
-	@Size(min = 5, max = 100, message = "O atributo título deve conter no mínimo 05 e no máximo 100 caracteres")
-	@Column (length = 100) 
-	private String titulo;
+	// titulo que tenha no minimo 5 caracteres e no maximo 100
 	
+	@NotBlank(message = "O atributo título é Obrigatório!") 
+	@Size(min = 5, max = 100, message = "O atributo título deve conter no mínimo 05 e no máximo 100 caracteres")
+	@Column(length = 100)
+	private String titulo;
 	
 	@NotBlank(message = "O atributo texto é Obrigatório!")
 	@Size(min = 10, max = 1000, message = "O atributo texto deve conter no mínimo 10 e no máximo 1000 caracteres")
-	@Column (length = 1000) 
-	private String texto;	
-	
-	// @Column (length = 100) 
+	@Column(length = 1000) // sobrescrevendo a quantidade padrão de caracteres maximos
+	private String texto;
 	
 	@UpdateTimestamp
 	private LocalDateTime data;
 	
-	@ManyToOne //muitas postagens para um tema
-	@JsonIgnoreProperties("postagem")
+	@ManyToOne // varias postagem podem pertencer a um tema
+	@JsonIgnoreProperties("postagem")//para que nao gerem um lupe infinito
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getTitulo() {
-        return this.titulo;
-    }
+	public String getTitulo() {
+		return titulo;
+	}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
-    public String getTexto() {
-        return this.texto;
-    }
+	public String getTexto() {
+		return texto;
+	}
 
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
 
-    public LocalDateTime getData() {
-        return this.data;
-    }
+	public LocalDateTime getData() {
+		return data;
+	}
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
 
 	public Tema getTema() {
 		return tema;
@@ -83,5 +91,14 @@ import jakarta.validation.constraints.Size;
 	public void setTema(Tema tema) {
 		this.tema = tema;
 	}
-  
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+    
 }
