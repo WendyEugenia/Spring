@@ -86,23 +86,22 @@ public class UsuarioService {
 			   return usuarioLogin;
 			
 			}
-
         } 
             
 		return Optional.empty();
 
     }
 
-	private String criptografarSenha(String senha) {
+	private String criptografarSenha(String senha) {// ele ira ciptografar minha senha no insomnia
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		return encoder.encode(senha);
 
 	}
-
+//Metodo usado no login do usuario
 	private String gerarToken(String usuario) {
-		return "Bearer " + jwtService.generateToken(usuario);
+		return "Bearer " + jwtService.generateToken(usuario);//jwtServide ele valida o tokem a partir do usuario 
 	}
 
 }

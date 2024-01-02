@@ -36,10 +36,11 @@ public class PostagemController{
 	 * necessidade de criar um objeto.
 	 * */
 	
+	
 	@Autowired
 	private TemaRepository temaRepository;
 	
-	@GetMapping // Execute esse método caso o Verbo Http seja o GET
+	@GetMapping("/all") // Execute esse método caso o Verbo Http seja o GET
 	public ResponseEntity<List<Postagem>> getAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
