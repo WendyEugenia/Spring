@@ -40,7 +40,7 @@ public class UsuarioControllerTest {
 		usuarioRepository.deleteAll();
 
 		usuarioService.cadastrarUsuario(new Usuario(0L, 
-			"Root", "root@root.com", "rootroot", "-"));
+			"Root", "root@root.com", "rootroot", "-"));// usuario e senha Swagger
 
 	}
 
@@ -49,7 +49,7 @@ public class UsuarioControllerTest {
 	public void deveCriarUmUsuario() {
 
 		HttpEntity<Usuario> corpoRequisicao = new HttpEntity<Usuario>(new Usuario(0L, 
-			"Paulo Antunes", "paulo_antunes@email.com.br", "15547566", "-"));
+			"Wendy Eugenia", "wendy.t.n@hotmail.com", "112233445566", "-"));
 
 		ResponseEntity<Usuario> corpoResposta = testRestTemplate
 			.exchange("/usuarios/cadastrar", HttpMethod.POST, corpoRequisicao, Usuario.class);
