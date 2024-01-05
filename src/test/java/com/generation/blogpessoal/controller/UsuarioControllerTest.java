@@ -1,4 +1,4 @@
-package com.generation.blogpessoal.controller;
+﻿package com.generation.blogpessoal.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,7 +26,7 @@ import com.generation.blogpessoal.service.UsuarioService;
 public class UsuarioControllerTest {
 
 	@Autowired
-	private TestRestTemplate testRestTemplate;//simula o insonia
+	private TestRestTemplate testRestTemplate;
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -40,7 +40,7 @@ public class UsuarioControllerTest {
 		usuarioRepository.deleteAll();
 
 		usuarioService.cadastrarUsuario(new Usuario(0L, 
-			"Root", "root@root.com", "rootroot", "-"));// usuario e senha Swagger
+			"Root", "root@root.com", "rootroot", "-"));
 
 	}
 
@@ -49,7 +49,7 @@ public class UsuarioControllerTest {
 	public void deveCriarUmUsuario() {
 
 		HttpEntity<Usuario> corpoRequisicao = new HttpEntity<Usuario>(new Usuario(0L, 
-			"Wendy Eugenia", "wendy.t.n@hotmail.com", "112233445566", "-"));
+			"Paulo Antunes", "paulo_antunes@email.com.br", "13465278", "-"));
 
 		ResponseEntity<Usuario> corpoResposta = testRestTemplate
 			.exchange("/usuarios/cadastrar", HttpMethod.POST, corpoRequisicao, Usuario.class);
