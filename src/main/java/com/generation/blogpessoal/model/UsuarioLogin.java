@@ -4,8 +4,8 @@ public class UsuarioLogin {
 	
 	private Long id;
 	private String nome;
-	private String usuario;// o usuario so atualiza esses
-	private String senha;//o usuario so atualiza esses
+	private String usuario;// o usuario so atualiza
+	private String senha;//o usuario so atualiza 
 	private String foto;
 	private String token;
 

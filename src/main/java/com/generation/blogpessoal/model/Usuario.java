@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,17 +18,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity //uma tabela
-@Table(name = "tb_usuarios")//nome da minha tabela
+@Entity
+@Table(name = "tb_usuarios")
 public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "O Atributo Nome é Obrigatório!")// texto
+	@NotBlank(message = "O Atributo Nome é Obrigatório!")
 	private String nome;
-	
+
 	@Schema(example = "email@email.com.br")
 	@NotNull(message = "O Atributo Usuário é Obrigatório!")
 	@Email(message = "O Atributo Usuário deve ser um email válido!")
@@ -39,15 +38,17 @@ public class Usuario {
 	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
 
-	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
+	@Size(max = 5000,
+			message = "O link da foto não pode ser maior do que 5000 caracteres")
 	@Column(length = 5000)
 	private String foto;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "usuario",
+			cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
-	
-	public Usuario(Long id, String nome, String usuario, String senha, String foto) {// teste 1
+
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
 		this.id = id;
 		this.nome = nome;
 		this.usuario = usuario;
@@ -55,9 +56,8 @@ public class Usuario {
 		this.foto = foto;
 	}
 	
-	public Usuario() { }
-
-	/* Insira os Getters and Setters */
+	public Usuario() {
+	}
 
 	public Long getId() {
 		return this.id;
