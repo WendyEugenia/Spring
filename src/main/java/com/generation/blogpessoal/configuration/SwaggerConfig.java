@@ -23,7 +23,7 @@ public class SwaggerConfig {
                 .description("Projeto Blog Pessoal - Generation Brasil")
                 .version("v0.0.1")
                 .license(new License()
-                    .name("Wendt Eugenia")
+                    .name("Wendy Eugenia")
                     .url("https://github.com/WendyEugenia"))
                 .contact(new Contact()
                     .name("Wendy Eugenia")
