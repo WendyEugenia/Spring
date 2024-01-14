@@ -23,15 +23,15 @@ public class SwaggerConfig {
                 .description("Projeto Blog Pessoal - Generation Brasil")
                 .version("v0.0.1")
                 .license(new License()
-                    .name("Wendy Eugenia")
-                    .url("https://github.com/WendyEugenia"))
+                    .name("Henrique Mancini Nevado")
+                    .url("https://github.com/HenriqueMN"))
                 .contact(new Contact()
-                    .name("Wendy Eugenia")
-                    .url("https://www.linkedin.com/in/wendy-eugenia/")
-                    .email("wendy.t.n@hotmail.com")))
+                    .name("Henrique Mancini Nevado")
+                    .url("https://linkedin.com/in/henrique-mn")
+                    .email("henriquemancininevado@gmail.com")))
             .externalDocs(new ExternalDocumentation()
                 .description("Github")
-                .url("https://github.com/WendyEugenia"));
+                .url("https://github.com/HenriqueMN/blogpessoal"));
     }
 
 
